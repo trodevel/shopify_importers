@@ -34,9 +34,9 @@ sub create_handle_from_title($)
     return $res;
 }
 
-sub conv_fields_to_shopify($)
+sub conv_fields_to_shopify($$)
 {
-    my $fields_ref = shift;
+    my ( $fields_ref, $vendor_id ) = @_;
 
     my @fields = @{ $fields_ref };
 
@@ -63,7 +63,7 @@ sub conv_fields_to_shopify($)
     #my $handle = '';
     #my $title = '';
     my $body_html = '';
-    my $vendor_min_2_characters = 'rewe_1';
+    my $vendor_min_2_characters = $vendor_id;
     my $type = '';
     my $tags = '';
     my $published = 'TRUE';
@@ -157,7 +157,7 @@ while( my $line = <$data> )
     {
         my @fields = $csv->fields();
 
-        conv_fields_to_shopify( \@fields );
+        conv_fields_to_shopify( \@fields, $vendor_id );
     }
     else
     {
