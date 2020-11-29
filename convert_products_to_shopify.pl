@@ -26,7 +26,7 @@ sub create_title($)
     return '"' . $title . '"';
 }
 
-sub create_handle_from_title($)
+sub create_handle($)
 {
     my $title = shift;
 
@@ -82,7 +82,7 @@ sub conv_fields_to_shopify($$)
 
     #print "DEBUG: fields=$num_fields\n";
 
-    my $handle = create_handle_from_title( $fields[1] );
+    my $handle = create_handle( $fields[1] );
 
     my $title  = create_title( $fields[1] );
 
