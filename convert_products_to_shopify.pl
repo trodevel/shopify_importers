@@ -23,6 +23,8 @@ sub create_title($)
 {
     my $title = shift;
 
+    $title =~ s/"/""/g;  #"
+
     return '"' . $title . '"';
 }
 
