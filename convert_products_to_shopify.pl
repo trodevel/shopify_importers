@@ -34,6 +34,19 @@ sub create_handle_from_title($)
     return $res;
 }
 
+sub parse_price($)
+{
+    my $price = shift;
+
+    my $res = $price;
+
+    $res =~ s/€//g;
+    $res =~ s/,/./;
+    $res += 0.0;
+
+    return $res;
+}
+
 sub conv_fields_to_shopify($$)
 {
     my ( $fields_ref, $vendor_id ) = @_;
@@ -48,13 +61,7 @@ sub conv_fields_to_shopify($$)
 
     my $title  = $fields[1];
 
-    my $price  = $fields[0];
-    #$price =~ s/\n/<br>/g;
-    my @price_lines = split( /\n/, $price );
-    $price = $price_lines[-1];
-    $price =~ s/€//g;
-    $price =~ s/,/./;
-    $price += 0.0;
+    my $price  = parse_price( $fields[3] );
 
     my $pic  = $fields[10];
     $pic =~ s/resize=152px:152px&//;
