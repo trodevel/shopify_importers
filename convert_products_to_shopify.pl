@@ -81,7 +81,7 @@ sub conv_fields_to_shopify($$)
     #my $title = '';
     my $body_html = '';
     my $vendor_min_2_characters = $vendor_id;
-    my $type = '';
+    my $type = $fields[0];
     my $tags = '';
     my $published = 'TRUE';
     my $option1_name = '';
