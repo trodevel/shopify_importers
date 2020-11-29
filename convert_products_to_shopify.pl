@@ -8,7 +8,16 @@ use Text::CSV;
 
 binmode(STDOUT, "encoding(UTF-8)");
 
+my $ARGC = $#ARGV + 1;
+if( $ARGC != 3 )
+{
+    print STDERR "\nUsage: convert_products_to_shopify.sh <input_file.csv> <output.csv> <vendor_id>\n";
+    exit;
+}
+
 my $file = $ARGV[0] or die "Need to get CSV file on the command line\n";
+my $outp = $ARGV[1];
+my $vendor_id = $ARGV[2];
 
 sub create_handle_from_title($)
 {
