@@ -91,6 +91,11 @@ sub conv_fields_to_shopify($$)
 
     my $price  = parse_price( $fields[3] );
 
+    if( $price == -1 )
+    {
+        $price  = parse_price( $fields[5] );
+    }
+
     my $pic  = parse_pic( $fields[7] );
 
     #my $handle = '';
