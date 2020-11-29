@@ -40,11 +40,12 @@ sub create_handle($)
     $res =~ s/ß/ss/g;
     $res =~ s/β/ss/g;
 
-
     $res =~ s/à/a/g;
     $res =~ s/[éè]/e/g;
     $res =~ s/ñ/n/g;
     $res =~ s/å/ae/g;
+
+    $res =~ s/--/-/g;
 
     return $res;
 }
