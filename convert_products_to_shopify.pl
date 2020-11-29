@@ -10,6 +10,21 @@ binmode(STDOUT, "encoding(UTF-8)");
 
 my $file = $ARGV[0] or die "Need to get CSV file on the command line\n";
 
+sub create_handle_from_title($)
+{
+    my $title = shift;
+
+    my $res = lc $title;
+    $res =~ s/ /-/g;
+    $res =~ s/ü/ue/g;
+    $res =~ s/ä/ae/g;
+    $res =~ s/ö/oe/g;
+    $res =~ s/ß/ss/g;
+    $res =~ s/é/e/g;
+
+    return $res;
+}
+
 sub conv_fields_to_shopify($)
 {
     my $fields_ref = shift;
@@ -20,15 +35,9 @@ sub conv_fields_to_shopify($)
 
     #print "DEBUG: fields=$num_fields\n";
 
-    my $handle = lc $fields[5];
-    $handle =~ s/ /-/g;
-    $handle =~ s/ü/ue/g;
-    $handle =~ s/ä/ae/g;
-    $handle =~ s/ö/oe/g;
-    $handle =~ s/ß/ss/g;
-    $handle =~ s/é/e/g;
+    my $handle = create_handle_from_title( $fields[1] );
 
-    my $title  = $fields[5];
+    my $title  = $fields[1];
 
     my $price  = $fields[0];
     #$price =~ s/\n/<br>/g;
