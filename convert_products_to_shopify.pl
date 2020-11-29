@@ -32,14 +32,14 @@ sub create_handle($)
 
     my $res = lc $title;
     $res =~ s/ /-/g;
-    $res =~ s/['",!\.&]//g;     #'
+    $res =~ s/['",!\.&%]//g;     #'
     $res =~ s/ü/ue/g;
     $res =~ s/ä/ae/g;
     $res =~ s/ö/oe/g;
     $res =~ s/ß/ss/g;
 
     $res =~ s/à/a/g;
-    $res =~ s/é/e/g;
+    $res =~ s/[éè]/e/g;
     $res =~ s/ñ/n/g;
     $res =~ s/å/ae/g;
 
