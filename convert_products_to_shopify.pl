@@ -47,6 +47,18 @@ sub parse_price($)
     return $res;
 }
 
+sub parse_pic($)
+{
+    my $pic = shift;
+
+    my $res = $pic;
+
+    $res =~ s/resize=152px:152px&//;
+    $res =~ s/\?output-quality=80&output-format=jpeg//;
+
+    return $res;
+}
+
 sub conv_fields_to_shopify($$)
 {
     my ( $fields_ref, $vendor_id ) = @_;
@@ -63,9 +75,7 @@ sub conv_fields_to_shopify($$)
 
     my $price  = parse_price( $fields[3] );
 
-    my $pic  = $fields[10];
-    $pic =~ s/resize=152px:152px&//;
-    $pic =~ s/\?output-quality=80&output-format=jpeg//;
+    my $pic  = parse_pic( $fields[7] );
 
     #my $handle = '';
     #my $title = '';
