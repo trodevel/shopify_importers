@@ -140,7 +140,7 @@ sub conv_fields_to_shopify($$)
     # Shopify fields
     # https://help.shopify.com/en/manual/products/import-export/using-csv#product-csv-file-format
 
-    print
+    print OUTPUT
     $handle, ",",
     $title, ",",
     $body_html, ",",
@@ -186,9 +186,13 @@ my $csv = Text::CSV->new ({
   sep_char  => ';'
 });
 
-print "Handle,Title,Body (HTML),Vendor,Type,Tags,Published,Option1 Name,Option1 Value,Option2 Name,Option2 Value,Option3 Name,Option3 Value,Variant SKU,Variant Grams,Variant Inventory Tracker,Variant Inventory Qty,Variant Inventory Policy,Variant Fulfillment Service,Variant Price,Variant Compare at Price,Variant Requires Shipping,Variant Taxable,Variant Barcode,Image Src,Image Position,Image Alt Text,Gift Card,SEO Title,SEO Description,Google Shopping metafields,Variant Image,Variant Weight Unit,Variant Tax Code,Cost per item,Status\n";
-
 open(my $data, '<:encoding(utf8)', $file) or die "Could not open '$file' $!\n";
+
+open( OUTPUT, "> $outp" ) or die "Couldn't open file for writing: $!\n";
+
+binmode( OUTPUT, "encoding(UTF-8)" );
+
+print OUTPUT "Handle,Title,Body (HTML),Vendor,Type,Tags,Published,Option1 Name,Option1 Value,Option2 Name,Option2 Value,Option3 Name,Option3 Value,Variant SKU,Variant Grams,Variant Inventory Tracker,Variant Inventory Qty,Variant Inventory Policy,Variant Fulfillment Service,Variant Price,Variant Compare at Price,Variant Requires Shipping,Variant Taxable,Variant Barcode,Image Src,Image Position,Image Alt Text,Gift Card,SEO Title,SEO Description,Google Shopping metafields,Variant Image,Variant Weight Unit,Variant Tax Code,Cost per item,Status\n";
 
 while( my $line = <$data> )
 {
@@ -207,3 +211,5 @@ while( my $line = <$data> )
 }
 
 close $data;
+
+close OUTPUT;
