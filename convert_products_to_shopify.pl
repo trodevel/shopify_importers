@@ -19,6 +19,13 @@ my $file = $ARGV[0] or die "Need to get CSV file on the command line\n";
 my $outp = $ARGV[1];
 my $vendor_id = $ARGV[2];
 
+sub create_title($)
+{
+    my $title = shift;
+
+    return '"' . $title . '"';
+}
+
 sub create_handle_from_title($)
 {
     my $title = shift;
@@ -77,7 +84,7 @@ sub conv_fields_to_shopify($$)
 
     my $handle = create_handle_from_title( $fields[1] );
 
-    my $title  = $fields[1];
+    my $title  = create_title( $fields[1] );
 
     my $price  = parse_price( $fields[3] );
 
