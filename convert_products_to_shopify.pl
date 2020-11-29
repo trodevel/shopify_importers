@@ -25,6 +25,8 @@ sub create_handle_from_title($)
 
     my $res = lc $title;
     $res =~ s/ /-/g;
+    $res =~ s/'//g;     #'
+    $res =~ s/,/_/g;
     $res =~ s/ü/ue/g;
     $res =~ s/ä/ae/g;
     $res =~ s/ö/oe/g;
