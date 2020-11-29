@@ -116,6 +116,9 @@ sub conv_fields_to_shopify($$)
 
     #print $handle, ",", $title, ",", $price,",", $pic, "\n";
 
+    # Shopify fields
+    # https://help.shopify.com/en/manual/products/import-export/using-csv#product-csv-file-format
+
     print
     $handle, ",",
     $title, ",",
