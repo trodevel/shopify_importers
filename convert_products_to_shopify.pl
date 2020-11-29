@@ -130,14 +130,21 @@ my $csv = Text::CSV->new ({
 print "Handle,Title,Body (HTML),Vendor,Type,Tags,Published,Option1 Name,Option1 Value,Option2 Name,Option2 Value,Option3 Name,Option3 Value,Variant SKU,Variant Grams,Variant Inventory Tracker,Variant Inventory Qty,Variant Inventory Policy,Variant Fulfillment Service,Variant Price,Variant Compare at Price,Variant Requires Shipping,Variant Taxable,Variant Barcode,Image Src,Image Position,Image Alt Text,Gift Card,SEO Title,SEO Description,Google Shopping metafields,Variant Image,Variant Weight Unit,Variant Tax Code,Cost per item,Status\n";
 
 open(my $data, '<:encoding(utf8)', $file) or die "Could not open '$file' $!\n";
-while (my $fields = $csv->getline( $data ))
-{
-    conv_fields_to_shopify( $fields );
-}
 
-if (not $csv->eof)
+while( my $line = <$data> )
 {
-  $csv->error_diag();
+    chomp $line;
+
+    if( $csv->parse( $line ) )
+    {
+        my @fields = $csv->fields();
+
+        conv_fields_to_shopify( \@fields );
+    }
+    else
+    {
+        warn "Line could not be parsed: $line\n";
+    }
 }
 
 close $data;
