@@ -9,15 +9,16 @@ use Text::CSV;
 binmode(STDOUT, "encoding(UTF-8)");
 
 my $ARGC = $#ARGV + 1;
-if( $ARGC != 3 )
+if( $ARGC < 3 || $ARGC > 4 )
 {
-    print STDERR "\nUsage: convert_products_to_shopify.sh <input_file.csv> <output.csv> <vendor_id>\n";
+    print STDERR "\nUsage: convert_products_to_shopify.sh <input_file.csv> <output.csv> <vendor_id> [<price_factor>]\n";
     exit;
 }
 
 my $file = $ARGV[0] or die "Need to get CSV file on the command line\n";
 my $outp = $ARGV[1];
 my $vendor_id = $ARGV[2];
+my $price_factor = ( $ARGC == 4 ) ? ( $ARGV[3] + 0.0 ) : ( 1.0 );
 
 sub create_title($)
 {
@@ -77,9 +78,22 @@ sub parse_pic($)
     return $res;
 }
 
-sub conv_fields_to_shopify($$)
+sub apply_price_factor($$)
 {
-    my ( $fields_ref, $vendor_id ) = @_;
+    my ( $price, $price_factor ) = @_;
+
+    my $res = $price * $price_factor;
+
+    $res = sprintf( "%.2f", $res );
+
+    $res += 0.0;
+
+    return $res;
+}
+
+sub conv_fields_to_shopify($$$)
+{
+    my ( $fields_ref, $vendor_id, $price_factor ) = @_;
 
     my @fields = @{ $fields_ref };
 
@@ -97,6 +111,8 @@ sub conv_fields_to_shopify($$)
     {
         $price  = parse_price( $fields[5] );
     }
+
+    $price = apply_price_factor( $price, $price_factor );
 
     my $pic  = parse_pic( $fields[7] );
 
@@ -204,7 +220,7 @@ while( my $line = <$data> )
     {
         my @fields = $csv->fields();
 
-        conv_fields_to_shopify( \@fields, $vendor_id );
+        conv_fields_to_shopify( \@fields, $vendor_id, $price_factor );
     }
     else
     {
