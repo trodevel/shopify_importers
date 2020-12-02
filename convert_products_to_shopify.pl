@@ -51,6 +51,7 @@ sub create_handle($)
     $res =~ s/ó/o/g;
 
     $res =~ s/--/-/g;
+    $res =~ s/-$//g;
 
     return $res;
 }
