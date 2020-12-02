@@ -47,7 +47,7 @@ sub create_handle($)
     $res =~ s/[éè]/e/g;
     $res =~ s/ñ/n/g;
     $res =~ s/å/ae/g;
-    $res =~ s/ì/i/g;
+    $res =~ s/[ìî]/i/g;
     $res =~ s/ó/o/g;
 
     $res =~ s/--/-/g;
