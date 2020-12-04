@@ -242,9 +242,13 @@ print OUTPUT "Handle,Title,Body (HTML),Vendor,Type,Tags,Published,Option1 Name,O
 
 my %handles;
 
+my $num_lines = 0;
+
 while( my $line = <$data> )
 {
     chomp $line;
+
+    $num_lines++;
 
     if( $csv->parse( $line ) )
     {
@@ -258,10 +262,12 @@ while( my $line = <$data> )
     }
 }
 
-my $outp_size = scalar keys %handles;
-
 close $data;
 
 close OUTPUT;
 
-print "INFO: output lines $outp_size\n";
+my $outp_size = scalar keys %handles;
+
+my $num_ignored = $num_lines - $outp_size;
+
+print "INFO: input lines $num_lines, output lines $outp_size, ignored lines $num_ignored\n";
