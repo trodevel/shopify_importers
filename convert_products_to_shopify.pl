@@ -139,7 +139,7 @@ sub conv_fields_to_shopify($$$$)
 
     my @fields = @{ $fields_ref };
 
-    my $num_fields = scalar @fields;
+    #my $num_fields = scalar @fields; # DEBUG
 
     #print "DEBUG: fields=$num_fields\n";
 
