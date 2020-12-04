@@ -171,8 +171,8 @@ sub conv_fields_to_shopify($$$$)
     my $type = $fields[0];
     my $tags = $type;
     my $published = 'TRUE';
-    my $option1_name = '';
-    my $option1_value = '';
+    my $option1_name = 'Title';
+    my $option1_value = 'Default Title';
     my $option2_name = '';
     my $option2_value = '';
     my $option3_name = '';
