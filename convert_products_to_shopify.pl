@@ -48,7 +48,7 @@ sub create_handle($)
     $res =~ s/[éèë]/e/g;
     $res =~ s/ñ/n/g;
     $res =~ s/å/ae/g;
-    $res =~ s/[ìî]/i/g;
+    $res =~ s/[ìîí]/i/g;
     $res =~ s/ó/o/g;
     $res =~ s/[úû]/u/g;
 
@@ -97,9 +97,25 @@ sub apply_price_factor($$)
     return $res;
 }
 
-sub conv_fields_to_shopify($$$)
+sub is_handle_unique($$)
 {
-    my ( $fields_ref, $vendor_id, $price_factor ) = @_;
+    my ( $handles_ref, $handle ) = @_;
+
+    if( exists( $handles_ref->{ $handle } ) )
+    {
+        $handles_ref->{ $handle }++;
+
+        return 0;
+    }
+
+    $handles_ref->{ $handle } = 1;
+
+    return 1;
+}
+
+sub conv_fields_to_shopify($$$$)
+{
+    my ( $fields_ref, $handles_ref, $vendor_id, $price_factor ) = @_;
 
     my @fields = @{ $fields_ref };
 
@@ -108,6 +124,12 @@ sub conv_fields_to_shopify($$$)
     #print "DEBUG: fields=$num_fields\n";
 
     my $handle = create_handle( $fields[1] );
+
+    if( is_handle_unique( $handles_ref, $handle ) == 0 )
+    {
+        print "WARNING: duplicate handle '$handle'\n";
+        return;
+    }
 
     my $title  = create_title( $fields[1] );
 
@@ -218,6 +240,8 @@ binmode( OUTPUT, "encoding(UTF-8)" );
 
 print OUTPUT "Handle,Title,Body (HTML),Vendor,Type,Tags,Published,Option1 Name,Option1 Value,Option2 Name,Option2 Value,Option3 Name,Option3 Value,Variant SKU,Variant Grams,Variant Inventory Tracker,Variant Inventory Qty,Variant Inventory Policy,Variant Fulfillment Service,Variant Price,Variant Compare at Price,Variant Requires Shipping,Variant Taxable,Variant Barcode,Image Src,Image Position,Image Alt Text,Gift Card,SEO Title,SEO Description,Google Shopping metafields,Variant Image,Variant Weight Unit,Variant Tax Code,Cost per item,Status\n";
 
+my %handles;
+
 while( my $line = <$data> )
 {
     chomp $line;
@@ -226,7 +250,7 @@ while( my $line = <$data> )
     {
         my @fields = $csv->fields();
 
-        conv_fields_to_shopify( \@fields, $vendor_id, $price_factor );
+        conv_fields_to_shopify( \@fields, \%handles, $vendor_id, $price_factor );
     }
     else
     {
@@ -234,6 +258,10 @@ while( my $line = <$data> )
     }
 }
 
+my $outp_size = scalar keys %handles;
+
 close $data;
 
 close OUTPUT;
+
+print "INFO: output lines $outp_size\n";
