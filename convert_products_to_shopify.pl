@@ -143,7 +143,7 @@ sub conv_fields_to_shopify($$$$)
 
     #print "DEBUG: fields=$num_fields\n";
 
-    my $handle = create_handle( $fields[1] );
+    my $handle = create_handle( $fields[4] );
 
     if( is_handle_unique( $handles_ref, $handle ) == 0 )
     {
@@ -151,24 +151,24 @@ sub conv_fields_to_shopify($$$$)
         return;
     }
 
-    my $title  = create_title( $fields[1] );
+    my $title  = create_title( $fields[4] );
 
-    my $price  = parse_price( $fields[3] );
+    my $price  = parse_price( $fields[6] );
 
     if( $price == -1 )
     {
-        $price  = parse_price( $fields[5] );
+        $price  = parse_price( $fields[8] );
     }
 
     $price = apply_price_factor( $price, $price_factor );
 
-    my $pic  = parse_pic( $fields[7] );
+    my $pic  = parse_pic( $fields[10] );
 
     #my $handle = '';
     #my $title = '';
     my $body_html = '';
     my $vendor_min_2_characters = $vendor_id;
-    my $type = $fields[0];
+    my $type = $fields[1];
     my $tags = $type;
     my $published = 'TRUE';
     my $option1_name = 'Title';
