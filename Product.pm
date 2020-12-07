@@ -74,9 +74,9 @@ sub new($$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$)
 
 sub create_from_array($)
 {
-    my ( $class, $args_ref ) = @_;
+    my ( $args_ref ) = @_;
 
-    die "class method invoked on object" if ref $class;
+    #die "class method invoked on object" if ref $class;
 
     my @args = @{ $args_ref };
 
