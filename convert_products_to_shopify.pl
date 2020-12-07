@@ -46,9 +46,9 @@ sub create_title($)
 {
     my $title = shift;
 
-    $title =~ s/"/""/g;  #"
+    $title =~ s/[\xc2\xad]/ /g;
 
-    return '"' . $title . '"';
+    return $title;
 }
 
 sub create_handle($)
