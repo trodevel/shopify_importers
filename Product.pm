@@ -98,7 +98,7 @@ sub create_from_array($)
         $args[7],
         $args[8],
         $args[9],
-        $args[0],
+        $args[10],
         $args[11],
         $args[12],
         $args[13],
