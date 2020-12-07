@@ -81,10 +81,23 @@ sub read_products($$)
     print "INFO: read $num_lines lines, $num_handles handles from '$filename'\n";
 }
 
+sub save_products($$)
+{
+    my ( $filename, $handles_ref ) = @_;
 
-#open( OUTPUT, "> $outp" ) or die "Couldn't open file for writing: $!\n";
+    open( my $data, "> $filename" ) or die "Couldn't open file for writing: $!\n";
 
-#binmode( OUTPUT, "encoding(UTF-8)" );
+    binmode( $data, "encoding(UTF-8)" );
+
+    foreach my $val( values %{ $handles_ref } )
+    {
+        print $data $val->to_csv() . "\n";
+    }
+
+    close $data;
+
+    print "INFO: saved '$filename'\n";
+}
 
 my %handles_1;
 my %handles_2;
@@ -130,6 +143,6 @@ while( my( $k, $v ) = each %handles_2 )
     }
 }
 
-#close OUTPUT;
+save_products( $outp, \%merged );
 
 print "INFO: updated $num_updated, deleted $num_deleted, added $num_added\n";
