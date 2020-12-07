@@ -167,6 +167,51 @@ sub to_csv()
     return $res;
 }
 
+sub merge($)
+{
+    my ( $self, $obj_ref ) = @_;
+
+    die "mismatching handle" if ( $self->{handle} ne $obj_ref->{handle} );
+
+    $self->{title} = $obj_ref->{title};
+    $self->{body_html} = $obj_ref->{body_html};
+    $self->{vendor_min_2_characters} = $obj_ref->{vendor_min_2_characters};
+    $self->{type} = $obj_ref->{type};
+    $self->{tags} = $obj_ref->{tags};
+    $self->{published} = $obj_ref->{published};
+    $self->{option1_name} = $obj_ref->{option1_name};
+    $self->{option1_value} = $obj_ref->{option1_value};
+    $self->{option2_name} = $obj_ref->{option2_name};
+    $self->{option2_value} = $obj_ref->{option2_value};
+    $self->{option3_name} = $obj_ref->{option3_name};
+    $self->{option3_value} = $obj_ref->{option3_value};
+    $self->{variant_sku} = $obj_ref->{variant_sku};
+    $self->{variant_grams} = $obj_ref->{variant_grams};
+    $self->{variant_inventory_tracker} = $obj_ref->{variant_inventory_tracker};
+    $self->{variant_inventory_qty} = $obj_ref->{variant_inventory_qty};
+    $self->{variant_inventory_policy} = $obj_ref->{variant_inventory_policy};
+    $self->{variant_fulfillment_service} = $obj_ref->{variant_fulfillment_service};
+    $self->{variant_price} = $obj_ref->{variant_price};
+    $self->{variant_compare_at_price} = $obj_ref->{variant_compare_at_price};
+    $self->{variant_requires_shipping} = $obj_ref->{variant_requires_shipping};
+    $self->{variant_taxable} = $obj_ref->{variant_taxable};
+    $self->{variant_barcode} = $obj_ref->{variant_barcode};
+    $self->{image_src} = $obj_ref->{image_src};
+    $self->{image_position} = $obj_ref->{image_position};
+    $self->{image_alt_text} = $obj_ref->{image_alt_text};
+    $self->{gift_card} = $obj_ref->{gift_card};
+    $self->{seo_title} = $obj_ref->{seo_title};
+    $self->{seo_description} = $obj_ref->{seo_description};
+    $self->{google_shopping_metafields} = $obj_ref->{google_shopping_metafields};
+    $self->{variant_image} = $obj_ref->{variant_image};
+    $self->{variant_weight_unit} = $obj_ref->{variant_weight_unit};
+    $self->{variant_tax_code_shopify_plus} = $obj_ref->{variant_tax_code_shopify_plus};
+    $self->{cost_per_item} = $obj_ref->{cost_per_item};
+    $self->{status} = $obj_ref->{status};
+
+    return $res;
+}
+
 ############################################################
 
 1;
