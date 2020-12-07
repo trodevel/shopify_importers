@@ -167,6 +167,15 @@ sub to_csv()
     return $res;
 }
 
+sub get_csv_header()
+{
+    my ( $class ) = @_;
+
+    die "class method invoked on object" if ref $class;
+
+    return "Handle,Title,Body (HTML),Vendor,Type,Tags,Published,Option1 Name,Option1 Value,Option2 Name,Option2 Value,Option3 Name,Option3 Value,Variant SKU,Variant Grams,Variant Inventory Tracker,Variant Inventory Qty,Variant Inventory Policy,Variant Fulfillment Service,Variant Price,Variant Compare at Price,Variant Requires Shipping,Variant Taxable,Variant Barcode,Image Src,Image Position,Image Alt Text,Gift Card,SEO Title,SEO Description,Google Shopping metafields,Variant Image,Variant Weight Unit,Variant Tax Code,Cost per item,Status";
+}
+
 sub merge($)
 {
     my ( $self, $obj_ref ) = @_;
