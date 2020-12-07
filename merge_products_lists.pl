@@ -119,6 +119,17 @@ while( my( $k, $v ) = each %handles_1 )
     }
 }
 
+keys %handles_2;
+while( my( $k, $v ) = each %handles_2 )
+{
+    if( not exists( $handles_1{ $k } ) )
+    {
+        $num_added += 1;
+
+        $merged{ $k } = $v;
+    }
+}
+
 #close OUTPUT;
 
-print "INFO: udpated $num_updated, deleted $num_deleted\n";
+print "INFO: updated $num_updated, deleted $num_deleted, added $num_added\n";
