@@ -81,6 +81,17 @@ sub create_handle($)
     return $res;
 }
 
+sub convert_to_tag($)
+{
+    my $s = shift;
+
+    my $res = $s;
+    $res =~ s/,//g;
+    $res =~ s/"//g; #"
+
+    return $res;
+}
+
 sub parse_price($)
 {
     my $price = shift;
