@@ -132,8 +132,14 @@ sub to_csv()
 {
     my ( $self ) = @_;
 
+    my $title = $self->{title};
+
+    $title =~ s/"/""/g;  #"
+
+    $title = '"' . $title . '"';
+
     my $res = $self->{handle} . "," .
-    $self->{title} . "," .
+    $title . "," .
     $self->{body_html} . "," .
     $self->{vendor_min_2_characters} . "," .
     $self->{type} . "," .
