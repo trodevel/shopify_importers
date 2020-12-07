@@ -25,6 +25,9 @@ package Product;
 use strict;
 use warnings;
 
+use Carp qw(croak);
+use Scalar::Util qw(blessed);
+
 sub new($$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$)
 {
     my $class = shift;
@@ -74,15 +77,17 @@ sub new($$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$)
 
 sub create_from_array($)
 {
-    my ( $args_ref ) = @_;
+    my ( $class, $args_ref ) = @_;
 
     #die "class method invoked on object" if ref $class;
+
+    croak( "new_from_string must be called on a class-name" ) if blessed $class;
 
     my @args = @{ $args_ref };
 
     die "wrong number of arguments" if ( scalar @args != 36 );
 
-    return new(
+    return $class->new(
         $args[0],
         $args[1],
         $args[2],

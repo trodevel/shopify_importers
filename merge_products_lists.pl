@@ -64,7 +64,7 @@ sub read_products($$)
         {
             my @fields = $csv->fields();
 
-            my $product = Product::create_from_array( \@fields );
+            my $product = Product->create_from_array( \@fields );
 
             $handles_ref->{ $product->{handle} } = $product;
         }
@@ -107,7 +107,7 @@ while( my( $k, $v ) = each %handles_1 )
 
         my $v2 = $handles_2{ $k };
 
-        $v->merge( \$v2 );
+        $v->merge( $v2 );
 
         $merged{ $k } = $v;
     }
