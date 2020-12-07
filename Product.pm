@@ -196,7 +196,10 @@ sub merge($)
     $self->{variant_requires_shipping} = $obj_ref->{variant_requires_shipping};
     $self->{variant_taxable} = $obj_ref->{variant_taxable};
     $self->{variant_barcode} = $obj_ref->{variant_barcode};
-    $self->{image_src} = $obj_ref->{image_src};
+    if( index( $self->{image_src}, "cdn.shopify.com" ) == -1 )
+    {
+        $self->{image_src} = $obj_ref->{image_src};
+    }
     $self->{image_position} = $obj_ref->{image_position};
     $self->{image_alt_text} = $obj_ref->{image_alt_text};
     $self->{gift_card} = $obj_ref->{gift_card};
