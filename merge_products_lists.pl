@@ -129,6 +129,8 @@ while( my( $k, $v ) = each %handles_1 )
         $num_deleted += 1;
 
         $v->set_status_archived();
+
+        $merged{ $k } = $v;
     }
 }
 
