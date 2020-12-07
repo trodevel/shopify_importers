@@ -89,6 +89,8 @@ sub save_products($$)
 
     binmode( $data, "encoding(UTF-8)" );
 
+    print $data Product::get_csv_header() . "\n";
+
     foreach my $val( values %{ $handles_ref } )
     {
         print $data $val->to_csv() . "\n";
