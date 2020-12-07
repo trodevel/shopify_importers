@@ -148,7 +148,7 @@ sub to_csv()
     $self->{body_html} . "," .
     $self->{vendor_min_2_characters} . "," .
     $self->{type} . "," .
-    $self->{tags} . "," .
+    quotify( $self->{tags} ). "," .
     $self->{published} . "," .
     $self->{option1_name} . "," .
     $self->{option1_value} . "," .
