@@ -166,6 +166,11 @@ sub conv_fields_to_shopify($$$$)
 
     my $title  = create_title( $fields[4] );
 
+    my $tag_1  = convert_to_tag( $fields[2] );
+    my $tag_2  = convert_to_tag( $fields[3] );
+
+    my $tags = '"' . $tag_1 ."," . $tag_2 . '"';
+
     my $cost_per_item  = parse_price( $fields[6] );
 
     if( $cost_per_item == -1 )
@@ -183,7 +188,7 @@ sub conv_fields_to_shopify($$$$)
         '', #  body_html
         $vendor_id,
         $fields[1], # type
-        $fields[1], # tags
+        $tags, # tags
         'TRUE', # published
         'Title', # option1_name
         'Default Title', # option1_value
