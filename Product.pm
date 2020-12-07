@@ -143,10 +143,8 @@ sub to_csv()
 {
     my ( $self ) = @_;
 
-    my $title = quotify( $self->{title} );
-
     my $res = $self->{handle} . "," .
-    $title . "," .
+    quotify( $self->{title} ) . "," .
     $self->{body_html} . "," .
     $self->{vendor_min_2_characters} . "," .
     $self->{type} . "," .
