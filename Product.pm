@@ -128,15 +128,22 @@ sub create_from_array($)
     # your code
 }
 
+sub quotify($)
+{
+    my $res = shift;
+
+    $res =~ s/"/""/g;  #"
+
+    $res = '"' . $res . '"';
+
+    return $res;
+}
+
 sub to_csv()
 {
     my ( $self ) = @_;
 
-    my $title = $self->{title};
-
-    $title =~ s/"/""/g;  #"
-
-    $title = '"' . $title . '"';
+    my $title = quotify( $self->{title} );
 
     my $res = $self->{handle} . "," .
     $title . "," .
