@@ -96,7 +96,9 @@ sub save_products($$)
 
     close $data;
 
-    print "INFO: saved '$filename'\n";
+    my $size = scalar keys %{ $handles_ref };
+
+    print "INFO: saved $size lines to '$filename'\n";
 }
 
 my %handles_1;
