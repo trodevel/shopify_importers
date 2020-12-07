@@ -89,10 +89,36 @@ sub read_products($$)
 my %handles_1;
 my %handles_2;
 
+my %merged;
+
 read_products( $inp_file1, \%handles_1 );
 read_products( $inp_file2, \%handles_2 );
 
+my $num_updated = 0;
+my $num_deleted = 0;
+my $num_added = 0;
+
+keys %handles_1;
+while( my( $k, $v ) = each %handles_1 )
+{
+    if( exists( $handles_2{ $k } ) )
+    {
+        $num_updated += 1;
+
+        my $v2 = $handles_2{ $k };
+
+        $v->merge( \$v2 );
+
+        $merged{ $k } = $v;
+    }
+    else
+    {
+        $num_deleted += 1;
+
+        $v->set_status_archived();
+    }
+}
+
 #close OUTPUT;
 
-
-#print "INFO: input lines $num_lines, output lines $outp_size, ignored lines $num_ignored\n";
+print "INFO: udpated $num_updated, deleted $num_deleted\n";
