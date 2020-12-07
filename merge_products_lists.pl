@@ -60,6 +60,11 @@ sub read_products($$)
 
         $num_lines++;
 
+        if( $num_lines == 1 )
+        {
+            next; # skip header
+        }
+
         if( $csv->parse( $line ) )
         {
             my @fields = $csv->fields();
