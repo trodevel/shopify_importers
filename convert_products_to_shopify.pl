@@ -166,14 +166,14 @@ sub conv_fields_to_shopify($$$$)
 
     my $title  = create_title( $fields[4] );
 
-    my $price  = parse_price( $fields[6] );
+    my $cost_per_item  = parse_price( $fields[6] );
 
-    if( $price == -1 )
+    if( $cost_per_item == -1 )
     {
-        $price  = parse_price( $fields[8] );
+        $cost_per_item  = parse_price( $fields[8] );
     }
 
-    $price = apply_price_factor( $price, $price_factor );
+    my $price = apply_price_factor( $cost_per_item, $price_factor );
 
     my $pic  = parse_pic( $fields[10] );
 
@@ -212,7 +212,7 @@ sub conv_fields_to_shopify($$$$)
         '', # variant_image
         '', # variant_weight_unit
         '', # variant_tax_code_shopify_plus
-        $price, # cost_per_item
+        $cost_per_item, # cost_per_item
         'active' # status
         );
 
