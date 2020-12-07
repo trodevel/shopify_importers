@@ -147,6 +147,6 @@ while( my( $k, $v ) = each %handles_2 )
     }
 }
 
-save_products( $outp, \%merged );
-
 print "INFO: updated $num_updated, deleted $num_deleted, added $num_added\n";
+
+save_products( $outp, \%merged );
