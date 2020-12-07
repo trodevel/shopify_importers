@@ -26,6 +26,8 @@ use utf8;
 use Text::CSV;
 #use Text::Unidecode;
 
+require Product;
+
 binmode(STDOUT, "encoding(UTF-8)");
 
 my $ARGC = $#ARGV + 1;
@@ -164,86 +166,51 @@ sub conv_fields_to_shopify($$$$)
 
     my $pic  = parse_pic( $fields[10] );
 
-    #my $handle = '';
-    #my $title = '';
-    my $body_html = '';
-    my $vendor_min_2_characters = $vendor_id;
-    my $type = $fields[1];
-    my $tags = $type;
-    my $published = 'TRUE';
-    my $option1_name = 'Title';
-    my $option1_value = 'Default Title';
-    my $option2_name = '';
-    my $option2_value = '';
-    my $option3_name = '';
-    my $option3_value = '';
-    my $variant_sku = '';
-    my $variant_grams = '0';
-    my $variant_inventory_tracker = '';
-    my $variant_inventory_qty = '';
-    my $variant_inventory_policy = 'deny';
-    my $variant_fulfillment_service = 'manual';
-    my $variant_price = $price;
-    my $variant_compare_at_price = '';
-    my $variant_requires_shipping = '';
-    my $variant_taxable = '';
-    my $variant_barcode = '';
-    my $image_src = $pic;
-    my $image_position = '';
-    my $image_alt_text = '';
-    my $gift_card = 'FALSE';
-    my $seo_title = '';
-    my $seo_description = '';
-    my $google_shopping_metafields = '';
-    my $variant_image = '';
-    my $variant_weight_unit = '';
-    my $variant_tax_code_shopify_plus = '';
-    my $cost_per_item = $price;
-    my $status = 'active';
+    my $product = new Product(
+        $handle,
+        $title,
+        '', #  body_html
+        $vendor_id,
+        $fields[1], # type
+        $fields[1], # tags
+        'TRUE', # published
+        'Title', # option1_name
+        'Default Title', # option1_value
+        '', # option2_name
+        '', # option2_value
+        '', # option3_name
+        '', # option3_value
+        '', # variant_sku
+        '0', # variant_grams
+        '', # variant_inventory_tracker
+        '', # variant_inventory_qty
+        'deny', # variant_inventory_policy
+        'manual', # variant_fulfillment_service
+        $price, # variant_price
+        '', # variant_compare_at_price
+        '', # variant_requires_shipping
+        '', # variant_taxable
+        '', # variant_barcode
+        $pic, # image_src
+        '', # image_position
+        '', # image_alt_text
+        'FALSE', # gift_card
+        '', # seo_title
+        '', # seo_description
+        '', # google_shopping_metafields
+        '', # variant_image
+        '', # variant_weight_unit
+        '', # variant_tax_code_shopify_plus
+        $price, # cost_per_item
+        'active' # status
+        );
 
     #print $handle, ",", $title, ",", $price,",", $pic, "\n";
 
     # Shopify fields
     # https://help.shopify.com/en/manual/products/import-export/using-csv#product-csv-file-format
 
-    print OUTPUT
-    $handle, ",",
-    $title, ",",
-    $body_html, ",",
-    $vendor_min_2_characters, ",",
-    $type, ",",
-    $tags, ",",
-    $published, ",",
-    $option1_name, ",",
-    $option1_value, ",",
-    $option2_name, ",",
-    $option2_value, ",",
-    $option3_name, ",",
-    $option3_value, ",",
-    $variant_sku, ",",
-    $variant_grams, ",",
-    $variant_inventory_tracker, ",",
-    $variant_inventory_qty, ",",
-    $variant_inventory_policy, ",",
-    $variant_fulfillment_service, ",",
-    $variant_price, ",",
-    $variant_compare_at_price, ",",
-    $variant_requires_shipping, ",",
-    $variant_taxable, ",",
-    $variant_barcode, ",",
-    $image_src, ",",
-    $image_position, ",",
-    $image_alt_text, ",",
-    $gift_card, ",",
-    $seo_title, ",",
-    $seo_description, ",",
-    $google_shopping_metafields, ",",
-    $variant_image, ",",
-    $variant_weight_unit, ",",
-    $variant_tax_code_shopify_plus, ",",
-    $cost_per_item, ",",
-    $status,
-    "\n";
+    print OUTPUT $product->to_csv() . "\n";
 }
 
 my $csv = Text::CSV->new ({
