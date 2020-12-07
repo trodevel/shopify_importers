@@ -215,6 +215,20 @@ sub merge($)
     return $res;
 }
 
+sub set_status_active()
+{
+    my ( $self ) = @_;
+
+    $self->{status} = 'active';
+}
+
+sub set_status_archived()
+{
+    my ( $self ) = @_;
+
+    $self->{status} = 'archived';
+}
+
 ############################################################
 
 1;
