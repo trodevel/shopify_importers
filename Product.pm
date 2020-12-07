@@ -220,8 +220,6 @@ sub merge($)
     $self->{variant_tax_code_shopify_plus} = $obj_ref->{variant_tax_code_shopify_plus};
     $self->{cost_per_item} = $obj_ref->{cost_per_item};
     $self->{status} = $obj_ref->{status};
-
-    return $res;
 }
 
 sub set_status_active()
