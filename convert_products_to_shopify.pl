@@ -192,6 +192,8 @@ sub add_aux_product($$$)
         0, # cost_per_item
         'active' # status
         );
+
+    print OUTPUT $product->to_csv() . "\n";
 }
 
 sub conv_fields_to_shopify($$$$$)
