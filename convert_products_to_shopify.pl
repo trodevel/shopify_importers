@@ -150,7 +150,7 @@ sub add_aux_product($$$)
 {
     my ( $handles_ref, $categories_ref, $vendor_id ) = @_;
 
-    my $categories = join( ",", keys %{ $categories_ref } );
+    my $categories = '"' . join( ",", keys %{ $categories_ref } ) . '"';
 
     my $id = 'aux_product';
 
