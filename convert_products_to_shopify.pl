@@ -146,9 +146,57 @@ sub is_handle_unique($$)
     return 1;
 }
 
-sub conv_fields_to_shopify($$$$)
+sub add_aux_product($$$)
 {
-    my ( $fields_ref, $handles_ref, $vendor_id, $price_factor ) = @_;
+    my ( $handles_ref, $categories_ref, $vendor_id ) = @_;
+
+    my $categories = join( ",", keys %{ $categories_ref } );
+
+    my $id = 'aux_product';
+
+    my $product = new Product(
+        $id,
+        $id,
+        $categories, #  body_html
+        $vendor_id,
+        $id, # type
+        '', # tags
+        'FALSE', # published
+        'Title', # option1_name
+        'Default Title', # option1_value
+        '', # option2_name
+        '', # option2_value
+        '', # option3_name
+        '', # option3_value
+        '', # variant_sku
+        '0', # variant_grams
+        '', # variant_inventory_tracker
+        '', # variant_inventory_qty
+        'deny', # variant_inventory_policy
+        'manual', # variant_fulfillment_service
+        0, # variant_price
+        '', # variant_compare_at_price
+        '', # variant_requires_shipping
+        '', # variant_taxable
+        '', # variant_barcode
+        '', # image_src
+        '', # image_position
+        '', # image_alt_text
+        'FALSE', # gift_card
+        '', # seo_title
+        '', # seo_description
+        '', # google_shopping_metafields
+        '', # variant_image
+        '', # variant_weight_unit
+        '', # variant_tax_code_shopify_plus
+        0, # cost_per_item
+        'active' # status
+        );
+}
+
+sub conv_fields_to_shopify($$$$$)
+{
+    my ( $fields_ref, $handles_ref, $categories_ref, $vendor_id, $price_factor ) = @_;
 
     my @fields = @{ $fields_ref };
 
@@ -170,6 +218,8 @@ sub conv_fields_to_shopify($$$$)
     my $tag_2  = convert_to_tag( $fields[3] );
 
     my $tags = '"' . $tag_1 ."," . $tag_2 . '"';
+
+    $categories_ref->{ $tag_1 } = 1;
 
     my $cost_per_item  = parse_price( $fields[6] );
 
@@ -245,6 +295,8 @@ print OUTPUT Product::get_csv_header() . "\n";
 
 my %handles;
 
+my %categories;
+
 my $num_lines = 0;
 
 while( my $line = <$data> )
@@ -257,7 +309,7 @@ while( my $line = <$data> )
     {
         my @fields = $csv->fields();
 
-        conv_fields_to_shopify( \@fields, \%handles, $vendor_id, $price_factor );
+        conv_fields_to_shopify( \@fields, \%handles, \%categories, $vendor_id, $price_factor );
     }
     else
     {
@@ -266,6 +318,8 @@ while( my $line = <$data> )
 }
 
 close $data;
+
+add_aux_product( \%handles, \%categories, $vendor_id );
 
 close OUTPUT;
 
