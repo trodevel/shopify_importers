@@ -161,7 +161,7 @@ sub add_aux_product($$$)
         $vendor_id,
         $id, # type
         '', # tags
-        'FALSE', # published
+        'TRUE', # published
         'Title', # option1_name
         'Default Title', # option1_value
         '', # option2_name
