@@ -150,17 +150,17 @@ sub add_aux_product($$$)
 {
     my ( $handles_ref, $categories_ref, $vendor_id ) = @_;
 
-    my $categories = '"' . join( ",", keys %{ $categories_ref } ) . '"';
+    my $categories = join( ",", keys %{ $categories_ref } );
 
     my $id = 'aux_product';
 
     my $product = new Product(
         $id,
         $id,
-        $categories, #  body_html
+        '', #  body_html
         $vendor_id,
         $id, # type
-        '', # tags
+        $categories, # tags
         'TRUE', # published
         'Title', # option1_name
         'Default Title', # option1_value
