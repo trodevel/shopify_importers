@@ -158,8 +158,8 @@ sub add_aux_product($$$)
         $id,
         $id,
         '', #  body_html
-        $vendor_id,
-        $id, # type
+        $id, # vendor_id
+        $vendor_id, # type
         $categories, # tags
         'TRUE', # published
         'Title', # option1_name
