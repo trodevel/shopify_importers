@@ -46,4 +46,4 @@ $pl_2->read_products( $inp_file2 );
 
 $pl_1->merge( $pl_2 );
 
-pl_1->save_products( $outp );
+$pl_1->save_products( $outp );
