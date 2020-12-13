@@ -49,7 +49,7 @@ sub new()
 
 sub read_products($)
 {
-    my ( $filename ) = @_;
+    my ( $self, $filename ) = @_;
 
     my $csv = Text::CSV->new ({
         binary    => 1,
@@ -95,7 +95,7 @@ sub read_products($)
 
 sub save_products($)
 {
-    my ( $filename ) = @_;
+    my ( $self, $filename ) = @_;
 
     open( my $data, "> $filename" ) or die "Couldn't open file for writing: $!\n";
 
@@ -117,7 +117,7 @@ sub save_products($)
 
 sub merge($)
 {
-    my ( $rhs ) = @_;
+    my ( $self, $rhs ) = @_;
 
     my %merged;
 
