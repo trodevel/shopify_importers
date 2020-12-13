@@ -202,10 +202,10 @@ sub add_aux_product($$$)
     my $product = new Product(
         $handle,
         $id,
-        '', #  body_html
+        $categories, #  body_html
         $id, # vendor_id
         $vendor_id, # type
-        $categories, # tags
+        '', # tags
         'TRUE', # published
         'Title', # option1_name
         'Default Title', # option1_value
