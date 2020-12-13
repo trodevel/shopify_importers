@@ -166,6 +166,25 @@ sub add_or_update_categories($$$)
     }
 }
 
+sub categories_to_csv($)
+{
+    my ( $categories_ref, $category, $sub_category ) = @_;
+
+    my $num_cat = scalar keys %{ $categories_ref };
+
+    my $res = "$num_cat,";
+
+    keys %{ $categories_ref };
+    while( my( $k, $v ) = each %{ $categories_ref } )
+    {
+        my $num_sub_cat = scalar keys %{ $v };
+
+        $res .= "$k,$num_sub_cat,";
+    }
+
+    return $res;
+}
+
 sub add_aux_product($$$)
 {
     my ( $handles_ref, $categories_ref, $vendor_id ) = @_;
