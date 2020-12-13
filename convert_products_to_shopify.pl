@@ -146,6 +146,26 @@ sub is_handle_unique($$)
     return 1;
 }
 
+sub add_or_update_categories($$$)
+{
+    my ( $categories_ref, $category, $sub_category ) = @_;
+
+    if( exists $categories_ref->{$category} )
+    {
+        if( not exists $categories_ref->{$category}->{$sub_category} )
+        {
+            $categories_ref->{$category}->{$sub_category} = 1;
+        }
+    }
+    else
+    {
+        my %hash;
+        $categories_ref->{$category} = \%hash;
+
+        $categories_ref->{$category}->{$sub_category} = 1;
+    }
+}
+
 sub add_aux_product($$$)
 {
     my ( $handles_ref, $categories_ref, $vendor_id ) = @_;
