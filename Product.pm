@@ -146,7 +146,7 @@ sub to_csv()
 
     my $res = $self->{handle} . "," .
     quotify( $self->{title} ) . "," .
-    encode_entities( $self->{body_html} ) . "," .
+    quotify( encode_entities( $self->{body_html} )  ). "," .
     $self->{vendor_min_2_characters} . "," .
     $self->{type} . "," .
     quotify( $self->{tags} ). "," .
