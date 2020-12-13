@@ -27,6 +27,7 @@ use warnings;
 
 use Carp qw(croak);
 use Scalar::Util qw(blessed);
+use HTML::Entities;
 
 sub new($$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$)
 {
@@ -145,7 +146,7 @@ sub to_csv()
 
     my $res = $self->{handle} . "," .
     quotify( $self->{title} ) . "," .
-    $self->{body_html} . "," .
+    encode_entities( $self->{body_html} ) . "," .
     $self->{vendor_min_2_characters} . "," .
     $self->{type} . "," .
     quotify( $self->{tags} ). "," .
