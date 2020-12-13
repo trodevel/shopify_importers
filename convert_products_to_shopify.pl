@@ -189,7 +189,7 @@ sub add_aux_product($$$)
 {
     my ( $handles_ref, $categories_ref, $vendor_id ) = @_;
 
-    my $categories = join( ",", keys %{ $categories_ref } );
+    my $categories = categories_to_csv( $categories_ref );
 
     my $id = 'aux_product';
     my $handle = "${id}_${vendor_id}";
@@ -261,7 +261,7 @@ sub conv_fields_to_shopify($$$$$)
 
     my $tags = '"' . $tag_1 ."," . $tag_2 . '"';
 
-    $categories_ref->{ $tag_1 } = 1;
+    add_or_update_categories( $categories_ref, $tag_1, $tag_2 );
 
     my $cost_per_item  = parse_price( $fields[6] );
 
