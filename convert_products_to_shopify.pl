@@ -153,9 +153,10 @@ sub add_aux_product($$$)
     my $categories = join( ",", keys %{ $categories_ref } );
 
     my $id = 'aux_product';
+    my $handle = "${id}_${vendor_id}";
 
     my $product = new Product(
-        $id,
+        $handle,
         $id,
         '', #  body_html
         $id, # vendor_id
