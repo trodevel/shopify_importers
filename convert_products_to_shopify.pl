@@ -180,6 +180,11 @@ sub categories_to_csv($)
         my $num_sub_cat = scalar keys %{ $v };
 
         $res .= "$k,$num_sub_cat,";
+
+        foreach my $s ( keys %{ $v } )
+        {
+            $res .= "$s,";
+        }
     }
 
     return $res;
