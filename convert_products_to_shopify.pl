@@ -301,7 +301,7 @@ sub conv_fields_to_shopify($$$$$)
         'manual', # variant_fulfillment_service
         $price, # variant_price
         '', # variant_compare_at_price
-        '', # variant_requires_shipping
+        'TRUE', # variant_requires_shipping
         '', # variant_taxable
         '', # variant_barcode
         $pic, # image_src
