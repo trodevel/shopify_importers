@@ -70,7 +70,7 @@ MERGED_A_B="merged_converted_${ROOT_B}.csv"
 if [[ ! -f $CONVERTED_A ]]
 then
     echo "INFO: converted file $CONVERTED_A not found, converting now"
-    ./convert_products_to_shopify.pl $FL_A $CONVERTED_A $VENDOR $FACTOR
+    ./convert_products_to_shopify.pl $FL_A $CONVERTED_A $VENDOR $FACTOR -r
 else
     echo "INFO: converted file $CONVERTED_A found"
 fi
@@ -84,7 +84,7 @@ else
 fi
 
 echo "INFO: converting file $CONVERTED_B"
-./convert_products_to_shopify.pl $FL_B $CONVERTED_B $VENDOR $FACTOR
+./convert_products_to_shopify.pl $FL_B $CONVERTED_B $VENDOR $FACTOR -r
 
 echo "INFO: merging lists"
 ./merge_products_lists.pl $CONVERTED_IMGS_A $CONVERTED_B $MERGED_A_B
