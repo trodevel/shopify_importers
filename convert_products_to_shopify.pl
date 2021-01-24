@@ -124,7 +124,25 @@ sub round_up_price($)
 {
     my ( $price ) = @_;
 
-    my $res = $price;
+    my $fixed_point_price = int( $price * 100 );
+
+    my $last_digit = $fixed_point_price % 10;
+
+    my $delta = 0;
+
+    if( $last_digit > 0 )
+    {
+        if( $last_digit > 5 )
+        {
+            $delta = 9 - $last_digit;
+        }
+        else
+        {
+            $delta = 5 - $last_digit;
+        }
+    }
+
+    my $res = $price + ( $delta / 100 );
 
     return $res;
 }
