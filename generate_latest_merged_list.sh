@@ -61,6 +61,7 @@ CONVERTED_IMGS_A="${LIST_DIR}/converted_${ROOT_A}_imgs.csv"
 T_B=${FL_B##*/}
 ROOT_B="${T_B%.*}"
 CONVERTED_B="${LIST_DIR}/converted_${ROOT_B}.csv"
+CONVERTED_IMGS_B="${LIST_DIR}/converted_${ROOT_B}_imgs.csv"
 
 MERGED_A_B="merged_converted_${ROOT_B}.csv"
 
@@ -85,6 +86,9 @@ fi
 
 echo "INFO: converting file $CONVERTED_B"
 ./convert_products_to_shopify.pl $FL_B $CONVERTED_B $VENDOR $FACTOR -r
+
+echo "INFO: converted file with images $CONVERTED_IMGS_B"
+./replace_image_urls.sh $CONVERTED_B $DONOR $CONVERTED_IMGS_B
 
 echo "INFO: merging lists"
 ./merge_products_lists.pl $CONVERTED_IMGS_A $CONVERTED_B $MERGED_A_B
