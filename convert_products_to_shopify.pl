@@ -40,9 +40,10 @@ if( $ARGC < 3 || $ARGC > 5 )
 my $file = $ARGV[0] or die "Need to get CSV file on the command line\n";
 my $outp = $ARGV[1];
 my $vendor_id = $ARGV[2];
-my $price_factor = ( $ARGC == 4 ) ? ( $ARGV[3] + 0.0 ) : ( 1.0 );
+my $price_factor = ( $ARGC >= 4 ) ? ( $ARGV[3] + 0.0 ) : ( 1.0 );
 my $should_round_up = ( $ARGC == 5 ) ? ( ( $ARGV[4] =~ /\-r/ ) ? 1 : 0 ) : 0;
 
+#print STDERR "DEBUG: price_factor = $price_factor\n";
 #print STDERR "DEBUG: should_round_up = $should_round_up\n";
 
 sub create_title($)
