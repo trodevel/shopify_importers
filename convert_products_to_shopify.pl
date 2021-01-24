@@ -31,9 +31,9 @@ require Product;
 binmode(STDOUT, "encoding(UTF-8)");
 
 my $ARGC = $#ARGV + 1;
-if( $ARGC < 3 || $ARGC > 4 )
+if( $ARGC < 3 || $ARGC > 5 )
 {
-    print STDERR "\nUsage: convert_products_to_shopify.sh <input_file.csv> <output.csv> <vendor_id> [<price_factor>]\n";
+    print STDERR "\nUsage: convert_products_to_shopify.sh <input_file.csv> <output.csv> <vendor_id> [<price_factor> [<-r>]]\n";
     exit;
 }
 
@@ -41,6 +41,9 @@ my $file = $ARGV[0] or die "Need to get CSV file on the command line\n";
 my $outp = $ARGV[1];
 my $vendor_id = $ARGV[2];
 my $price_factor = ( $ARGC == 4 ) ? ( $ARGV[3] + 0.0 ) : ( 1.0 );
+my $should_round_up = ( $ARGC == 5 ) ? ( ( $ARGV[4] =~ /\-r/ ) ? 1 : 0 ) : 0;
+
+#print STDERR "DEBUG: should_round_up = $should_round_up\n";
 
 sub create_title($)
 {
@@ -117,15 +120,26 @@ sub parse_pic($)
     return $res;
 }
 
-sub apply_price_factor($$)
+sub round_up_price($)
 {
-    my ( $price, $price_factor ) = @_;
+    my ( $price ) = @_;
+
+    my $res = $price;
+
+    return $res;
+}
+
+sub apply_price_factor($$$)
+{
+    my ( $price, $price_factor, $should_round_up ) = @_;
 
     my $res = $price * $price_factor;
 
     $res = sprintf( "%.2f", $res );
 
     $res += 0.0;
+
+    $res = ( $should_round_up == 1 ) ? round_up_price( $res ) : $res;
 
     return $res;
 }
@@ -241,9 +255,9 @@ sub add_aux_product($$$)
     print OUTPUT $product->to_csv() . "\n";
 }
 
-sub conv_fields_to_shopify($$$$$)
+sub conv_fields_to_shopify($$$$$$)
 {
-    my ( $fields_ref, $handles_ref, $categories_ref, $vendor_id, $price_factor ) = @_;
+    my ( $fields_ref, $handles_ref, $categories_ref, $vendor_id, $price_factor, $should_round_up ) = @_;
 
     my @fields = @{ $fields_ref };
 
@@ -275,7 +289,7 @@ sub conv_fields_to_shopify($$$$$)
         $cost_per_item  = parse_price( $fields[8] );
     }
 
-    my $price = apply_price_factor( $cost_per_item, $price_factor );
+    my $price = apply_price_factor( $cost_per_item, $price_factor, $should_round_up );
 
     my $pic  = parse_pic( $fields[10] );
 
@@ -356,7 +370,7 @@ while( my $line = <$data> )
     {
         my @fields = $csv->fields();
 
-        conv_fields_to_shopify( \@fields, \%handles, \%categories, $vendor_id, $price_factor );
+        conv_fields_to_shopify( \@fields, \%handles, \%categories, $vendor_id, $price_factor, $should_round_up );
     }
     else
     {
