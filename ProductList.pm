@@ -124,6 +124,7 @@ sub merge($)
     my $num_updated = 0;
     my $num_deleted = 0;
     my $num_added = 0;
+    my $num_modified = 0;
 
     keys %{ $self->{handles} };
     while( my( $k, $v ) = each %{ $self->{handles} } )
@@ -134,7 +135,9 @@ sub merge($)
 
             my $v2 = $rhs->{handles}->{ $k };
 
-            $v->merge( $v2 );
+            my $is_modified = $v->merge( $v2 );
+
+            $num_modified += ( $is_modified == 1 ) ? 1 : 0;
 
             $merged{ $k } = $v;
         }
@@ -161,7 +164,7 @@ sub merge($)
 
     $self->{handles} = \%merged;
 
-    print "INFO: updated $num_updated, deleted $num_deleted, added $num_added\n";
+    print "INFO: updated $num_updated (modified $num_modified), deleted $num_deleted, added $num_added\n";
 }
 
 1;
