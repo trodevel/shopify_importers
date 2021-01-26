@@ -63,7 +63,7 @@ ROOT_B="${T_B%.*}"
 CONVERTED_B="${LIST_DIR}/converted_${ROOT_B}.csv"
 CONVERTED_IMGS_B="${LIST_DIR}/converted_${ROOT_B}_imgs.csv"
 
-MERGED_A_B="merged_converted_${ROOT_B}.csv"
+DIFF_A_B="diff_converted_${ROOT_B}.csv"
 
 #echo "DEBUG: MERGED_A_B = $MERGED_A_B"
 
@@ -91,6 +91,6 @@ echo "INFO: converted file with images $CONVERTED_IMGS_B"
 ./replace_image_urls.sh $CONVERTED_B $DONOR $CONVERTED_IMGS_B
 
 echo "INFO: merging lists"
-./merge_products_lists.pl $CONVERTED_IMGS_A $CONVERTED_B $MERGED_A_B
+./merge_products_lists.pl $CONVERTED_IMGS_A $CONVERTED_B $DIFF_A_B -d
 
-echo "INFO: done, $MERGED_A_B"
+echo "INFO: done, $DIFF_A_B"
