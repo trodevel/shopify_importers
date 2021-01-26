@@ -37,7 +37,7 @@ if( $ARGC < 3 || $ARGC > 4)
 my $inp_file1 = $ARGV[0] or die "Need to get CSV file on the command line\n";
 my $inp_file2 = $ARGV[1] or die "Need to get CSV file on the command line\n";
 my $outp = $ARGV[2];
-my $id_diff = ( $ARGC == 4 ) ? ( ( $ARGV[3] =~ /\-d/ ) ? 1 : 0 ) : 0;
+my $is_diff = ( $ARGC == 4 ) ? ( ( $ARGV[3] =~ /\-d/ ) ? 1 : 0 ) : 0;
 
 my $pl_1 = new ProductList();
 my $pl_2 = new ProductList();
@@ -45,6 +45,6 @@ my $pl_2 = new ProductList();
 $pl_1->read_products( $inp_file1 );
 $pl_2->read_products( $inp_file2 );
 
-my $res = $pl_1->merge( $pl_2 );
+my $res = $pl_1->merge_kern( $pl_2, $is_diff );
 
 $res->save_products( $outp );
