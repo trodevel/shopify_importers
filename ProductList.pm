@@ -115,9 +115,9 @@ sub save_products($)
     print "INFO: saved $size lines to '$filename'\n";
 }
 
-sub merge($)
+sub merge_kern($$$)
 {
-    my ( $self, $rhs ) = @_;
+    my ( $self, $rhs, $is_diff ) = @_;
 
     my %merged;
 
@@ -165,6 +165,13 @@ sub merge($)
     $self->{handles} = \%merged;
 
     print "INFO: updated $num_updated (modified $num_modified), deleted $num_deleted, added $num_added\n";
+}
+
+sub merge($$)
+{
+    my ( $self, $rhs ) = @_;
+
+    merge_kern( $self, $rhs, 0 );
 }
 
 1;
