@@ -165,17 +165,9 @@ sub merge_kern($$$)
         }
     }
 
-    my $res = $self;
+    my $res = new ProductList();
 
-    if( $is_diff )
-    {
-        $res = new ProductList();
-        $res->{handles} = \%merged;
-    }
-    else
-    {
-        $self->{handles} = \%merged;
-    }
+    $res->{handles} = \%merged;
 
     print "INFO: common items $num_updated (modified $num_modified), deleted $num_deleted, added $num_added\n";
 
@@ -186,7 +178,7 @@ sub merge($$)
 {
     my ( $self, $rhs ) = @_;
 
-    merge_kern( $self, $rhs, 0 );
+    return merge_kern( $self, $rhs, 0 );
 }
 
 sub diff($$)
@@ -197,4 +189,3 @@ sub diff($$)
 }
 
 1;
-
