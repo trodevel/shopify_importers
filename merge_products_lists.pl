@@ -28,15 +28,16 @@ require ProductList;
 binmode(STDOUT, "encoding(UTF-8)");
 
 my $ARGC = $#ARGV + 1;
-if( $ARGC != 3 )
+if( $ARGC < 3 || $ARGC > 4)
 {
-    print STDERR "\nUsage: merge_products_lists.pl <inp_file1.csv> <inp_file2.csv> <outp_file.csv>\n";
+    print STDERR "\nUsage: merge_products_lists.pl <inp_file1.csv> <inp_file2.csv> <outp_file.csv> [-d]\n";
     exit;
 }
 
 my $inp_file1 = $ARGV[0] or die "Need to get CSV file on the command line\n";
 my $inp_file2 = $ARGV[1] or die "Need to get CSV file on the command line\n";
 my $outp = $ARGV[2];
+my $id_diff = ( $ARGC == 4 ) ? ( ( $ARGV[3] =~ /\-d/ ) ? 1 : 0 ) : 0;
 
 my $pl_1 = new ProductList();
 my $pl_2 = new ProductList();
@@ -44,6 +45,6 @@ my $pl_2 = new ProductList();
 $pl_1->read_products( $inp_file1 );
 $pl_2->read_products( $inp_file2 );
 
-$pl_1->merge( $pl_2 );
+my $res = $pl_1->merge( $pl_2 );
 
-$pl_1->save_products( $outp );
+$res->save_products( $outp );
