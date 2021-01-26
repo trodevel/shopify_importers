@@ -139,7 +139,10 @@ sub merge_kern($$$)
 
             $num_modified += ( $is_modified == 1 ) ? 1 : 0;
 
-            $merged{ $k } = $v;
+            if( $is_diff == 0 || ( $is_diff == 1 && $is_modified ) )
+            {
+                $merged{ $k } = $v;
+            }
         }
         else
         {
@@ -162,9 +165,21 @@ sub merge_kern($$$)
         }
     }
 
-    $self->{handles} = \%merged;
+    my $res = $self;
 
-    print "INFO: updated $num_updated (modified $num_modified), deleted $num_deleted, added $num_added\n";
+    if( $is_diff )
+    {
+        $res = new ProductList();
+        $res->{handles} = \%merged;
+    }
+    else
+    {
+        $self->{handles} = \%merged;
+    }
+
+    print "INFO: common items $num_updated (modified $num_modified), deleted $num_deleted, added $num_added\n";
+
+    return $res;
 }
 
 sub merge($$)
@@ -172,6 +187,13 @@ sub merge($$)
     my ( $self, $rhs ) = @_;
 
     merge_kern( $self, $rhs, 0 );
+}
+
+sub diff($$)
+{
+    my ( $self, $rhs ) = @_;
+
+    return merge_kern( $self, $rhs, 1 );
 }
 
 1;
