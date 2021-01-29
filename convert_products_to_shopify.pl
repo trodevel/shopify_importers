@@ -223,9 +223,9 @@ sub categories_to_csv($)
     return $res;
 }
 
-sub add_aux_product($$$)
+sub add_aux_product($$)
 {
-    my ( $handles_ref, $categories_ref, $vendor_id ) = @_;
+    my ( $categories_ref, $vendor_id ) = @_;
 
     my $categories = categories_to_csv( $categories_ref );
 
@@ -399,7 +399,7 @@ while( my $line = <$data> )
 
 close $data;
 
-add_aux_product( \%handles, \%categories, $vendor_id );
+add_aux_product( \%categories, $vendor_id );
 
 close OUTPUT;
 
