@@ -19,11 +19,13 @@
 # along with this program. If not, see <http://www.gnu.org/licenses/>.
 #
 
-LIST_DIR=$1
-DONOR=$2
-VENDOR=$3
-FACTOR=$4
+PARSER=$1
+LIST_DIR=$2
+DONOR=$3
+VENDOR=$4
+FACTOR=$5
 
+[[ -z $PARSER ]]   && echo "ERROR: PARSER is not given" && exit
 [[ -z $LIST_DIR ]] && echo "ERROR: LIST_DIR is not given" && exit
 [[ -z $DONOR ]]    && echo "ERROR: DONOR is not given" && exit
 [[ -z $VENDOR ]]   && echo "ERROR: VENDOR is not given" && exit
@@ -63,7 +65,7 @@ ROOT_B="${T_B%.*}"
 CONVERTED_B="${LIST_DIR}/converted_${ROOT_B}.csv"
 CONVERTED_IMGS_B="${LIST_DIR}/converted_${ROOT_B}_imgs.csv"
 
-DIFF_A_B="diff_converted_${ROOT_B}.csv"
+DIFF_A_B="diff_${VENDOR}_${ROOT_B}.csv"
 
 #echo "DEBUG: MERGED_A_B = $MERGED_A_B"
 
@@ -71,7 +73,7 @@ DIFF_A_B="diff_converted_${ROOT_B}.csv"
 if [[ ! -f $CONVERTED_A ]]
 then
     echo "INFO: converted file $CONVERTED_A not found, converting now"
-    ./convert_products_to_shopify.pl $FL_A $CONVERTED_A $VENDOR $FACTOR -r
+    ./convert_products_to_shopify.pl $PARSER $FL_A $CONVERTED_A $VENDOR $FACTOR -r
 else
     echo "INFO: converted file $CONVERTED_A found"
 fi
@@ -85,7 +87,7 @@ else
 fi
 
 echo "INFO: converting file $CONVERTED_B"
-./convert_products_to_shopify.pl $FL_B $CONVERTED_B $VENDOR $FACTOR -r
+./convert_products_to_shopify.pl $PARSER $FL_B $CONVERTED_B $VENDOR $FACTOR -r
 
 echo "INFO: converted file with images $CONVERTED_IMGS_B"
 ./replace_image_urls.sh $CONVERTED_B $DONOR $CONVERTED_IMGS_B
