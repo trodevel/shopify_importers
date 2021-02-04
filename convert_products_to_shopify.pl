@@ -31,17 +31,18 @@ require ParserRewe;
 binmode(STDOUT, "encoding(UTF-8)");
 
 my $ARGC = $#ARGV + 1;
-if( $ARGC < 3 || $ARGC > 5 )
+if( $ARGC < 4 || $ARGC > 6 )
 {
-    print STDERR "\nUsage: convert_products_to_shopify.sh <input_file.csv> <output.csv> <vendor_id> [<price_factor> [<-r>]]\n";
+    print STDERR "\nUsage: convert_products_to_shopify.sh <PARSER> <input_file.csv> <output.csv> <vendor_id> [<price_factor> [<-r>]]\n";
     exit;
 }
 
-my $file = $ARGV[0] or die "Need to get CSV file on the command line\n";
-my $outp = $ARGV[1];
-my $vendor_id = $ARGV[2];
-my $price_factor = ( $ARGC >= 4 ) ? ( $ARGV[3] + 0.0 ) : ( 1.0 );
-my $should_round_up = ( $ARGC == 5 ) ? ( ( $ARGV[4] =~ /\-r/ ) ? 1 : 0 ) : 0;
+my $parser = $ARGV[0] or die "Need to get CSV file on the command line\n";
+my $file = $ARGV[1] or die "Need to get CSV file on the command line\n";
+my $outp = $ARGV[2];
+my $vendor_id = $ARGV[3];
+my $price_factor = ( $ARGC >= 5 ) ? ( $ARGV[4] + 0.0 ) : ( 1.0 );
+my $should_round_up = ( $ARGC == 6 ) ? ( ( $ARGV[5] =~ /\-r/ ) ? 1 : 0 ) : 0;
 
 #print STDERR "DEBUG: price_factor = $price_factor\n";
 #print STDERR "DEBUG: should_round_up = $should_round_up\n";
@@ -121,11 +122,18 @@ sub add_aux_product($$$)
     print $outp $product->to_csv() . "\n";
 }
 
-sub conv_fields_to_shopify($$$$$$$)
+sub conv_fields_to_shopify($$$$$$$$)
 {
-    my ( $fields_ref, $handles_ref, $categories_ref, $vendor_id, $price_factor, $should_round_up, $outp ) = @_;
+    my ( $parser, $fields_ref, $handles_ref, $categories_ref, $vendor_id, $price_factor, $should_round_up, $outp ) = @_;
 
-    ParserRewe::conv_fields_to_shopify( $fields_ref, $handles_ref, $categories_ref, $vendor_id, $price_factor, $should_round_up, $outp );
+    if( $parser =~ "REWE" )
+    {
+        ParserRewe::conv_fields_to_shopify( $fields_ref, $handles_ref, $categories_ref, $vendor_id, $price_factor, $should_round_up, $outp );
+    }
+    else
+    {
+        die "FATAL: unsupported parser $parser";
+    }
 }
 
 my $csv = Text::CSV->new ({
@@ -158,7 +166,7 @@ while( my $line = <$data> )
     {
         my @fields = $csv->fields();
 
-        conv_fields_to_shopify( \@fields, \%handles, \%categories, $vendor_id, $price_factor, $should_round_up, $OUTPUT );
+        conv_fields_to_shopify( $parser, \@fields, \%handles, \%categories, $vendor_id, $price_factor, $should_round_up, $OUTPUT );
     }
     else
     {
