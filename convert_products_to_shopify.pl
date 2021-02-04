@@ -27,6 +27,7 @@ use Text::CSV;
 
 require Product;
 require ParserRewe;
+require ParserAlnatura;
 
 binmode(STDOUT, "encoding(UTF-8)");
 
@@ -129,6 +130,10 @@ sub conv_fields_to_shopify($$$$$$$$)
     if( $parser =~ "REWE" )
     {
         ParserRewe::conv_fields_to_shopify( $fields_ref, $handles_ref, $categories_ref, $vendor_id, $price_factor, $should_round_up, $outp );
+    }
+    elsif( $parser =~ "ALNATURA" )
+    {
+        ParserAlnatura::conv_fields_to_shopify( $fields_ref, $handles_ref, $categories_ref, $vendor_id, $price_factor, $should_round_up, $outp );
     }
     else
     {
