@@ -71,9 +71,9 @@ sub categories_to_csv($)
     return $res;
 }
 
-sub add_aux_product($$)
+sub add_aux_product($$$)
 {
-    my ( $categories_ref, $vendor_id ) = @_;
+    my ( $categories_ref, $vendor_id, $outp ) = @_;
 
     my $categories = categories_to_csv( $categories_ref );
 
@@ -119,14 +119,14 @@ sub add_aux_product($$)
         'active' # status
         );
 
-    print OUTPUT $product->to_csv() . "\n";
+    print $outp $product->to_csv() . "\n";
 }
 
-sub conv_fields_to_shopify($$$$$$)
+sub conv_fields_to_shopify($$$$$$$)
 {
-    my ( $fields_ref, $handles_ref, $categories_ref, $vendor_id, $price_factor, $should_round_up ) = @_;
+    my ( $fields_ref, $handles_ref, $categories_ref, $vendor_id, $price_factor, $should_round_up, $outp ) = @_;
 
-    ParserRewe::conv_fields_to_shopify( $fields_ref, $handles_ref, $categories_ref, $vendor_id, $price_factor, $should_round_up );
+    ParserRewe::conv_fields_to_shopify( $fields_ref, $handles_ref, $categories_ref, $vendor_id, $price_factor, $should_round_up, $outp );
 }
 
 my $csv = Text::CSV->new ({
@@ -137,11 +137,11 @@ my $csv = Text::CSV->new ({
 
 open(my $data, '<:encoding(utf8)', $file) or die "Could not open '$file' $!\n";
 
-open( OUTPUT, "> $outp" ) or die "Couldn't open file for writing: $!\n";
+open( my $OUTPUT, "> $outp" ) or die "Couldn't open file for writing: $!\n";
 
-binmode( OUTPUT, "encoding(UTF-8)" );
+binmode( $OUTPUT, "encoding(UTF-8)" );
 
-print OUTPUT Product::get_csv_header() . "\n";
+print $OUTPUT Product::get_csv_header() . "\n";
 
 my %handles;
 
@@ -159,7 +159,7 @@ while( my $line = <$data> )
     {
         my @fields = $csv->fields();
 
-        conv_fields_to_shopify( \@fields, \%handles, \%categories, $vendor_id, $price_factor, $should_round_up );
+        conv_fields_to_shopify( \@fields, \%handles, \%categories, $vendor_id, $price_factor, $should_round_up, $OUTPUT );
     }
     else
     {
@@ -169,9 +169,9 @@ while( my $line = <$data> )
 
 close $data;
 
-add_aux_product( \%categories, $vendor_id );
+add_aux_product( \%categories, $vendor_id, $OUTPUT );
 
-close OUTPUT;
+close $OUTPUT;
 
 my $outp_size = scalar keys %handles;
 

@@ -26,6 +26,7 @@ use warnings;
 use utf8;
 
 require Product;
+require Helpers;
 
 sub convert_to_tag($)
 {
@@ -50,9 +51,9 @@ sub parse_pic($)
     return $res;
 }
 
-sub conv_fields_to_shopify($$$$$$)
+sub conv_fields_to_shopify($$$$$$$)
 {
-    my ( $fields_ref, $handles_ref, $categories_ref, $vendor_id, $price_factor, $should_round_up ) = @_;
+    my ( $fields_ref, $handles_ref, $categories_ref, $vendor_id, $price_factor, $should_round_up, $outp ) = @_;
 
     my @fields = @{ $fields_ref };
 
@@ -132,7 +133,7 @@ sub conv_fields_to_shopify($$$$$$)
     # Shopify fields
     # https://help.shopify.com/en/manual/products/import-export/using-csv#product-csv-file-format
 
-    print OUTPUT $product->to_csv() . "\n";
+    print $outp $product->to_csv() . "\n";
 }
 
 1;
