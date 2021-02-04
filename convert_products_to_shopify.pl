@@ -24,7 +24,6 @@ use warnings;
 use utf8;
 
 use Text::CSV;
-#use Text::Unidecode;
 
 require Product;
 require ParserRewe;
