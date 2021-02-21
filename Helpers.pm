@@ -107,7 +107,7 @@ sub parse_weight($)
         $res = $1 + 0;
         $res *= 99;            # virtual weight
     }
-    elsif( $weight =~ /([0-9]+[,0-9]*)\s*m/ )
+    elsif( $weight =~ /([0-9]+[,0-9]*)\s*[c]*m/ )
     {
         $res = replace_commas( $1 ) + 0;
         $res *= 98;
