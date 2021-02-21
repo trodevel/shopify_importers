@@ -51,6 +51,19 @@ sub parse_pic($)
     return $res;
 }
 
+sub parse_weight($)
+{
+    my $w = shift;
+
+    my $res = $w;
+
+    $res =~ s/\(.*\)//;
+
+    $res = Helpers::parse_weight( $res );
+
+    return $res;
+}
+
 sub conv_fields_to_shopify($$$$$$$)
 {
     my ( $fields_ref, $handles_ref, $categories_ref, $vendor_id, $price_factor, $should_round_up, $outp ) = @_;
@@ -89,6 +102,10 @@ sub conv_fields_to_shopify($$$$$$$)
 
     my $pic  = parse_pic( $fields[10] );
 
+    my $weight = parse_weight( $fields[5] );
+
+    #print "DEBUG: field '$fields[5]', weight = $weight\n";
+
     my $product = new Product(
         $handle,
         $title,
@@ -104,7 +121,7 @@ sub conv_fields_to_shopify($$$$$$$)
         '', # option3_name
         '', # option3_value
         '', # variant_sku
-        '0', # variant_grams
+        $weight, # variant_grams
         '', # variant_inventory_tracker
         '', # variant_inventory_qty
         'deny', # variant_inventory_policy

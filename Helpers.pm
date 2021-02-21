@@ -23,6 +23,7 @@ package Helpers;
 
 use strict;
 use warnings;
+use POSIX;
 use utf8;
 
 sub sanitize_title($)
@@ -60,6 +61,70 @@ sub convert_title_to_handle($)
     $res =~ s/--/-/g;
     $res =~ s/--/-/g;
     $res =~ s/-$//g;
+
+    return $res;
+}
+
+sub replace_commas($)
+{
+    my $res = shift;
+
+    $res =~ s/,/./g;
+
+    return $res;
+}
+
+sub parse_weight($)
+{
+    my $weight = shift;
+
+    my $res = 0;
+
+    my $multiplier = 1;
+
+    #print "DEBUG: parse_weight: $weight\n";
+
+    if( $weight =~ /([0-9]+)x/ )
+    {
+        $multiplier = $1 + 0;
+        $weight =~ s/[0-9]+x//;
+    }
+
+    if( $weight eq "" )
+    {
+        $res = 97;
+    }
+    elsif( $weight eq "0" )
+    {
+        $res = 0;
+    }
+    elsif( $weight =~ /([0-9]+[,0-9]*)\s*(g|ml)/ )
+    {
+        $res = replace_commas( $1 ) + 0;
+    }
+    elsif( $weight =~ /([0-9]+[,0-9]*)\s*(kg|l)/ )
+    {
+        $res = replace_commas( $1 ) + 0;
+        $res *= 1000;
+    }
+    elsif( $weight =~ /([0-9]+)\s*([Ss]tück)/ )
+    {
+        $res = $1 + 0;
+        $res *= 99;            # virtual weight
+    }
+    elsif( $weight =~ /([0-9]+[,0-9]*)\s*[c]*m/ )
+    {
+        $res = replace_commas( $1 ) + 0;
+        $res *= 98;
+    }
+    else
+    {
+        die "unknown weight format";
+    }
+
+    $res *= $multiplier;
+
+    $res = ceil( $res );
 
     return $res;
 }
