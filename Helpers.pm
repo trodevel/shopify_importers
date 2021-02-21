@@ -93,7 +93,7 @@ sub parse_weight($)
     {
         $res = replace_commas( $1 ) + 0;
     }
-    elsif( $weight =~ /([0-9]+[,0-9]*)\s*kg/ )
+    elsif( $weight =~ /([0-9]+[,0-9]*)\s*(kg|l)/ )
     {
         $res = replace_commas( $1 ) + 0;
         $res *= 1000;
