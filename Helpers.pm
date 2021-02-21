@@ -98,6 +98,11 @@ sub parse_weight($)
         $res = replace_commas( $1 ) + 0;
         $res *= 1000;
     }
+    elsif( $weight =~ /([0-9]+)\s*([Ss]tück)/ )
+    {
+        $res = $1 + 0;
+        $res *= 99;            # virtual weight
+    }
 
     $res *= $multiplier;
 
