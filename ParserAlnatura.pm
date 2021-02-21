@@ -83,6 +83,10 @@ sub conv_fields_to_shopify($$$$$$$)
 
     my $pic  = parse_pic( $fields[8] );
 
+    my $weight = Helpers::parse_weight( $fields[6] );
+
+    print "DEBUG: title '$title', field '$fields[6]', weight = $weight\n";
+
     my $product = new Product(
         $handle,
         $title,
@@ -98,7 +102,7 @@ sub conv_fields_to_shopify($$$$$$$)
         '', # option3_name
         '', # option3_value
         '', # variant_sku
-        '0', # variant_grams
+        $weight, # variant_grams
         '', # variant_inventory_tracker
         '', # variant_inventory_qty
         'deny', # variant_inventory_policy
