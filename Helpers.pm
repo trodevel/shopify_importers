@@ -82,7 +82,7 @@ sub parse_weight($)
 
     my $multiplier = 1;
 
-    print "DEBUG: parse_weight: $weight\n";
+    #print "DEBUG: parse_weight: $weight\n";
 
     if( $weight =~ /([0-9]+)x/ )
     {

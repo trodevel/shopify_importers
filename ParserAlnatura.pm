@@ -85,7 +85,7 @@ sub conv_fields_to_shopify($$$$$$$)
 
     my $weight = Helpers::parse_weight( $fields[6] );
 
-    print "DEBUG: title '$title', field '$fields[6]', weight = $weight\n";
+    #print "DEBUG: title '$title', field '$fields[6]', weight = $weight\n";
 
     my $product = new Product(
         $handle,
