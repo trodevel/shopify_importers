@@ -89,7 +89,11 @@ sub parse_weight($)
         $weight =~ s/[0-9]+x//;
     }
 
-    if( $weight =~ /([0-9]+[,0-9]*)\s*(g|ml)/ )
+    if( $weight eq "" )
+    {
+        $res = 97;
+    }
+    elsif( $weight =~ /([0-9]+[,0-9]*)\s*(g|ml)/ )
     {
         $res = replace_commas( $1 ) + 0;
     }
@@ -102,6 +106,10 @@ sub parse_weight($)
     {
         $res = $1 + 0;
         $res *= 99;            # virtual weight
+    }
+    else
+    {
+        die "unknown weight format";
     }
 
     $res *= $multiplier;
