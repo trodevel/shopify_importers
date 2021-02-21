@@ -121,7 +121,7 @@ sub conv_fields_to_shopify($$$$$$$)
         '', # option3_name
         '', # option3_value
         '', # variant_sku
-        '0', # variant_grams
+        $weight, # variant_grams
         '', # variant_inventory_tracker
         '', # variant_inventory_qty
         'deny', # variant_inventory_policy
