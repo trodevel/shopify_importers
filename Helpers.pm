@@ -89,7 +89,7 @@ sub parse_weight($)
         $weight =~ s/[0-9]+x//;
     }
 
-    if( $weight =~ /([0-9]+[,0-9]*)\s*g/ )
+    if( $weight =~ /([0-9]+[,0-9]*)\s*(g|ml)/ )
     {
         $res = replace_commas( $1 ) + 0;
     }
