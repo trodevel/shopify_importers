@@ -64,6 +64,15 @@ sub convert_title_to_handle($)
     return $res;
 }
 
+sub parse_weight($)
+{
+    my $weight = shift;
+
+    my $res = 0;
+
+    return $res;
+}
+
 sub parse_price($)
 {
     my $price = shift;
