@@ -45,7 +45,7 @@ sub parse_pic($)
 
     my $res = $pic;
 
-    $res =~ s/jpg?/jpg/;
+    $res =~ s/jpg\?.*/jpg/;
 
     return $res;
 }
