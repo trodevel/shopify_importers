@@ -23,6 +23,7 @@ package Helpers;
 
 use strict;
 use warnings;
+use POSIX;
 use utf8;
 
 sub sanitize_title($)
@@ -118,6 +119,8 @@ sub parse_weight($)
     }
 
     $res *= $multiplier;
+
+    $res = ceil( $res );
 
     return $res;
 }
