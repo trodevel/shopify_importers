@@ -94,6 +94,10 @@ sub parse_weight($)
     {
         $res = 97;
     }
+    elsif( $weight eq "0" )
+    {
+        $res = 0;
+    }
     elsif( $weight =~ /([0-9]+[,0-9]*)\s*(g|ml)/ )
     {
         $res = replace_commas( $1 ) + 0;
