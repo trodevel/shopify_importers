@@ -59,6 +59,8 @@ sub parse_weight($)
 
     $res =~ s/\(.*\)//;
 
+    $res = Helpers::parse_weight( $res );
+
     return $res;
 }
 
