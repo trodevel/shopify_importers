@@ -64,11 +64,37 @@ sub convert_title_to_handle($)
     return $res;
 }
 
+sub replace_commas($)
+{
+    my $res = shift;
+
+    $res =~ s/,/./g;
+
+    return $res;
+}
+
 sub parse_weight($)
 {
     my $weight = shift;
 
     my $res = 0;
+
+    my $multiplier = 1;
+
+    print "DEBUG: parse_weight: $weight\n";
+
+    if( $weight =~ /([0-9]+)x/ )
+    {
+        $multiplier = $1 + 0;
+        $weight =~ s/[0-9]+x//;
+    }
+
+    if( $weight =~ /([0-9]+[,0-9]*)g/ )
+    {
+        $res = replace_commas( $1 ) + 0;
+    }
+
+    $res *= $multiplier;
 
     return $res;
 }
