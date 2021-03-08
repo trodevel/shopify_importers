@@ -46,7 +46,7 @@ sub parse_pic($)
     my $res = $pic;
 
     $res =~ s/resize=152px:152px&//;
-    $res =~ s/\?output-quality=80&output-format=jpeg//;
+    $res =~ s/\?output-quality=80&output-format=jpeg&im=BackgroundColor,color=fff//;
 
     return $res;
 }
