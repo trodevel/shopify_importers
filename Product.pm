@@ -85,7 +85,7 @@ sub create_from_array($)
 
     my @args = @{ $args_ref };
 
-    die "wrong number of arguments" if ( scalar @args != 36 );
+    die "wrong number of arguments (" . ( scalar @args ) .", expected 36)" if ( scalar @args != 36 );
 
     return $class->new(
         $args[0],
